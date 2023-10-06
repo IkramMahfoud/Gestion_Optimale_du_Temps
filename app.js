@@ -1,35 +1,148 @@
-const express = require('express')
-const app = express()
-const port = 3000
-app.set('view engine', 'ejs')
+// const express = require('express')
+// const mysql = require("mysql")
+// const app = express()
+// const port = 3000
 
-const posts = [
-    {title: 'Title 1', body: 'Body 1' },
-    {title: 'Title 2', body: 'Body 2' },
-    {title: 'Title 3', body: 'Body 3' },
-    {title: 'Title 4', body: 'Body 4' },
-]
-const user = {
-    firstName: 'Tim',
-    lastName: 'Cook',
-}
+// app.get('/', (req, res) =>
+// {
+//   const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'blog',
 
+//   })
 
-app.get('/', (req, res) => {
-  res.render('pages/index', {
-      user,
-      title: "Home Page"
-  })
-})
-app.get('/articles', (req, res) => {
-  res.render('pages/articles', {
-      articles: posts,
-      title: "Articles"
-  })
-})
+//   connection.connect((err) =>
+//   {
+//     if (err) {
+//       console.error('Erreur de connexion à la base de données :' + err.stack);
+//     } else {
+//       console.log('Connexion à la base de données réussie.');
+//     }
+//   })
 
 
+//   // Get les posts
+//   const article = []
+//   connection.query("SELECT * FROM posts", (err, rows, feilds) =>
+//   {
+//     if (err) throw err;
+//     article = res.json(rows)
+//   })
 
-app.listen(port, () => {
-  console.log(`App listening at port ${port}`)
-})
+//   app.get('/', (req, res) =>
+//   {
+//     res.render('pages/index', {
+//       user,
+//       title: "Home Page"
+//     })
+//   })
+//   app.get('/articles', (req, res) =>
+//   {
+//     res.render('pages/articles', {
+//       articles: article,
+//       title: "Articles"
+//     })
+//   })
+
+
+
+//   // Créer un nouveau post
+//   app.post('/posts', (req, res) =>
+//   {
+//     const { title, content } = req.body;
+//     const sql = 'INSERT INTO posts (title, content) VALUES (?, ?)';
+//     connection.query(sql, [title, content], (err, result) =>
+//     {
+//       if (err) throw err;
+//       res.json({ message: 'Post créé avec succès', postId: result.insertId });
+//     });
+//   });
+
+//   // Lire tous les posts
+//   app.get('/posts', (req, res) =>
+//   {
+//     const sql = 'SELECT * FROM posts';
+//     connection.query(sql, (err, rows) =>
+//     {
+//       if (err) throw err;
+//       res.json(rows);
+//     });
+//   });
+
+//   // Lire un post par son ID
+//   app.get('/posts/:id', (req, res) =>
+//   {
+//     const postId = req.params.id;
+//     const sql = 'SELECT * FROM posts WHERE id = ?';
+//     connection.query(sql, [post_Id], (err, rows) =>
+//     {
+//       if (err) throw err;
+//       if (rows.length === 0) {
+//         res.status(404).json({ message: 'Post non trouvé' });
+//       } else {
+//         res.json(rows[0]);
+//       }
+//     });
+//   });
+
+
+//   // Update un post par son ID
+//   app.put('/posts/:id', (req, res) =>
+//   {
+//     const postId = req.params.id;
+//     const { title, content } = req.body;
+//     const sql = 'UPDATE posts SET title = ?, content = ? WHERE poste_Id = ?';
+//     connection.query(sql, [title, content, postId], (err, result) =>
+//     {
+//       if (err) throw err;
+//       if (result.affectedRows === 0) {
+//         res.status(404).json({ message: 'Post non trouvé' });
+//       } else {
+//         res.json({ message: 'Post mis à jour avec succès' });
+//       }
+//     });
+//   });
+
+
+//   // Delete un post par son ID
+//   app.delete('/posts/:id', (req, res) =>
+//   {
+//     const postId = req.params.id;
+//     const sql = 'DELETE FROM posts WHERE poste_Id = ?';
+//     connection.query(sql, [postId], (err, result) =>
+//     {
+//       if (err) throw err;
+//       if (result.affectedRows === 0) {
+//         res.status(404).json({ message: 'Post non trouvé' });
+//       } else {
+//         res.json({ message: 'Post supprimé avec succès' });
+//       }
+//     });
+//   });
+
+//   connection.end();
+// })
+
+
+// app.listen(port, () => console.log(`server running on http://localhost:${port}`))
+
+
+
+
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Import your routes
+const articleRoutes = require('./routes/articleRoutes');
+// Add other route imports for categories, etc.
+
+app.use(express.json()); // Middleware for parsing JSON requests
+
+// Use your routes
+app.use('/articles', articleRoutes);
+// Add other route usages here
+
+app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

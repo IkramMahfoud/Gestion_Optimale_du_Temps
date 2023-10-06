@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  position: relative;
+  font-family: 'poppins', sans-serif;
+}
+
+.img {
+  margin-top: 10%;
+  width: 100%;
+  height: 412px;
+}
+
+.content {
+  text-align: center;
+}
