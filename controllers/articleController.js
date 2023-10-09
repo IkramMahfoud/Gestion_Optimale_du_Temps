@@ -6,19 +6,22 @@ const Joi = require('joi');
 
 
 
-
 // conex
 const db = require('../routes/db');
 
 //get all articles
-function getAllArticles(req, res) {
+function getAllArticles(req, res, callback) {
   db.query('SELECT * FROM posts', (err, rows) => {
     if (err) {
-      return res.status(500).json({ error: 'Error retrieving articles' });
+      // Handle the error, and pass it to the callback
+      return callback(err, null);
     }
-    res.json(rows);
+    // Pass the retrieved data to the callback
+    callback(null, rows);
   });
 }
+
+
 
 //get an article by title
 function getArticleByTitle(req, res) {
@@ -33,6 +36,7 @@ function getArticleByTitle(req, res) {
     res.json(rows[0]);
   });
 }
+
 
 // Get articles by category
   function getArticlesByCategory(req, res) {
@@ -99,3 +103,4 @@ module.exports = {
   deleteArticle,
   getArticlesByCategory
 };
+
